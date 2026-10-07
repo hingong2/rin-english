@@ -1,0 +1,10 @@
+# Cloudflare Pages 프로젝트 이름 (대시보드의 기존 프로젝트 이름과 맞추세요)
+name = "english-words"
+pages_build_output_dir = "public"
+compatibility_date = "2025-09-01"
+compatibility_flags = ["nodejs_compat"]
+
+# wrangler hyperdrive create 로 만든 뒤 출력된 id 를 넣으세요
+[[hyperdrive]]
+binding = "HYPERDRIVE"
+id = "여기에_HYPERDRIVE_ID"

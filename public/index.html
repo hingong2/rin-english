@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#fff6d9">
+  <meta name="robots" content="noindex">
+  <title>English Words</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main>
+  <!-- 시작 -->
+  <section id="v-start" class="view card center" hidden>
+    <img id="mascot" src="/mascot.png" alt="" width="160" height="160">
+    <h1>반가워요!</h1>
+    <p>영어 이름을 입력하고 신나게 시작해볼까요?</p>
+    <form id="f-name">
+      <label class="sr" for="in-name">영어 이름</label>
+      <input id="in-name" autocomplete="off" autocapitalize="words" maxlength="20" placeholder="예: Mini" required>
+      <p id="name-err" class="err" role="alert" hidden>영어 알파벳으로 입력해 주세요.</p>
+      <button class="btn primary big">단어장으로 Go! Go!</button>
+    </form>
+  </section>
+
+  <!-- 단어장 -->
+  <section id="v-book" class="view" hidden>
+    <header class="top">
+      <h1><span id="who"></span>의 영어 단어장</h1>
+      <button id="b-rename" class="btn ghost small">이름 바꾸기</button>
+    </header>
+    <div class="month">
+      <button id="b-prev" class="btn round" aria-label="이전 달">‹</button>
+      <strong id="month-label"></strong>
+      <button id="b-next" class="btn round" aria-label="다음 달">›</button>
+    </div>
+    <p id="book-msg" class="msg" hidden></p>
+    <div id="book-body" hidden>
+      <div id="weeks" class="chips" role="tablist" aria-label="주 선택"></div>
+      <div id="days" class="chips" role="tablist" aria-label="날짜 선택"></div>
+      <div class="card">
+        <div class="list-head">
+          <span id="count"></span>
+          <button id="b-hide" class="btn ghost small" aria-pressed="false">뜻 가리기</button>
+        </div>
+        <ul id="wordlist"></ul>
+      </div>
+      <p class="center">다 외웠나요? 그럼 게임을 시작해요!</p>
+      <button id="b-play" class="btn primary big wide">게임 모드 Go! Go!</button>
+      <button id="b-monthly" class="btn accent wide">Monthly Test 도전하기!</button>
+    </div>
+  </section>
+
+  <!-- 게임 선택 -->
+  <section id="v-modes" class="view" hidden>
+    <h2 class="center">어떤 모험을 떠날까요?</h2>
+    <button class="mode" data-mode="meaning"><b>뜻 고르기</b><span>알맞은 뜻을 콕! 찍어주세요</span></button>
+    <button class="mode" data-mode="match"><b>카드 짝 맞추기</b><span>단어와 뜻을 연결해요</span></button>
+    <button class="mode" data-mode="spelling"><b>스펠링 게임</b><span>철자를 순서대로 톡톡!</span></button>
+    <button class="btn ghost wide" data-back>단어장으로 돌아가기</button>
+  </section>
+
+  <!-- 게임 -->
+  <section id="v-game" class="view" hidden>
+    <header class="top">
+      <progress id="prog" value="0" max="1" aria-label="진행 상황"></progress>
+      <button class="btn ghost small" data-back>그만하기</button>
+    </header>
+    <div id="stage" class="card center" aria-live="polite"></div>
+  </section>
+
+  <!-- 결과 -->
+  <section id="v-done" class="view card center" hidden>
+    <div id="stars" class="stars" aria-hidden="true"></div>
+    <h2 id="done-title"></h2>
+    <p id="done-score"></p>
+    <div id="review" hidden>
+      <h3>다시 볼 단어</h3>
+      <ul id="review-list"></ul>
+    </div>
+    <button id="b-again" class="btn accent wide">한 번 더!</button>
+    <button class="btn primary wide" data-back>기분 좋게 돌아가기</button>
+  </section>
+</main>
+
+<footer><button id="b-admin" class="btn ghost small">관리자</button></footer>
+
+<dialog id="d-login">
+  <form id="f-login">
+    <h2>관리자 로그인</h2>
+    <label for="in-pw">비밀번호</label>
+    <input id="in-pw" type="password" autocomplete="current-password" required>
+    <p id="login-err" class="err" role="alert" hidden></p>
+    <div class="row">
+      <button class="btn primary">로그인</button>
+      <button type="button" class="btn ghost" data-close>취소</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="d-admin">
+  <div class="row between">
+    <h2>단어 관리</h2>
+    <div class="row">
+      <button id="b-logout" class="btn ghost small">로그아웃</button>
+      <button class="btn ghost small" data-close>닫기</button>
+    </div>
+  </div>
+  <label for="in-date">학습 날짜 선택</label>
+  <input id="in-date" type="date" required>
+  <label for="in-week">Week (월·수·금 날짜만 등록할 수 있어요)</label>
+  <input id="in-week" type="number" min="1" max="6" inputmode="numeric">
+  <ul id="admin-list"></ul>
+  <form id="f-add">
+    <h3>새 단어 추가</h3>
+    <label for="in-bulk">한 줄에 하나씩 <code>단어 = 뜻</code> 또는 <code>단어 = 뜻 | 영어 예문 | 예문 뜻</code></label>
+    <textarea id="in-bulk" rows="5" placeholder="apple = 사과&#10;river = 강" required></textarea>
+    <p id="admin-msg" class="err" role="status" hidden></p>
+    <button class="btn primary wide">추가하기</button>
+  </form>
+</dialog>
+
+<script src="/app.js" type="module"></script>
+</body>
+</html>
